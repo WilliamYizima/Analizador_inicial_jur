@@ -34,7 +34,8 @@ def reponse_last_page(path_pdf,dataset,list_regex):
         'file_name':'',
         'end_petition':'',
         'term_regex':'',
-        'sentences_last_page':[]
+        'sentences_last_page':[],
+        'status':''
     }
     obj_last_terms = last_terms(dataset,list_regex)
     obj_reponse['file_name'] = treatament_file_name(path_pdf)
