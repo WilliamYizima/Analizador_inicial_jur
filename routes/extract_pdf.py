@@ -5,6 +5,7 @@ import os
 
 #TO DO -> colocar no dotenv
 regex_titulos_pedidos = ['Dos Pedidos','PEDIDOS','Pleiteia','PEDIDO','REQUERIMENTOS']
+regex_fim_petição = ['Pede deferimento']
 
 @extract_pdf.route('/extract_pdf/pdf_struct', methods=['POST'])
 def run():
@@ -13,7 +14,7 @@ def run():
         name_excel = body['name_excel']
         name_pdf = body['name_pdf']
         path_pdf = f'./download/upload/{name_pdf}'
-        retorno = create_structe_excel(path_pdf,name_excel,regex_titulos_pedidos)
+        retorno = create_structe_excel(path_pdf,name_excel,regex_titulos_pedidos,regex_fim_petição)
         return jsonify(
             code=200,
             message='successfully executed',
@@ -31,7 +32,7 @@ def run_mass():
     # try:
         body = request.get_json()
         name_zip = body['name_zip']
-        retorno = analyze_mass(name_zip,regex_titulos_pedidos)
+        retorno = analyze_mass(name_zip,regex_titulos_pedidos,regex_fim_petição)
         return jsonify(
             code=200,
             message='successfully executed',

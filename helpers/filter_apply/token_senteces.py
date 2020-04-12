@@ -1,6 +1,7 @@
 
 import re
-from helpers.slice_pdf4request.slice_4request import slice_sentence
+from helpers.slice_pdf4request.slice_4request import slice_sentence,token_last_page
+from helpers.filter_apply.filters import regex_validando_lista
 
 def filter_tokenizer(dataframe):
     token_sentence=''
@@ -12,13 +13,25 @@ def filter_tokenizer(dataframe):
         if(most_rec_filter == 'mapping_regex_letter_paran'):index_filter = mapping_regex_letter_paran(dataframe)
         if(most_rec_filter == 'mapping_regex_numb_dot'):index_filter = mapping_regex_numb_dot(dataframe)
         if(most_rec_filter == 'mapping_regex_numb_paran'):index_filter = mapping_regex_numb_paran(dataframe)
-        print(index_filter)
+        if(most_rec_filter == 'mapping_regex_bullet'):index_filter = mapping_regex_numb_paran(dataframe)
+
         token_sentence = slice_sentence(dataframe,index_filter)
         
     # else:
     #     ...
     return token_sentence
         
+def mapping_regex_bullet(dataframe,msg:str='bullet circle')->dict:
+    letter_paren = re.compile(r'^•',re.IGNORECASE)
+    linhas = []
+    indices = []
+    obj_response = {'indices':[],'confianca':msg}
+    for index, row in dataframe.iterrows():
+        result = letter_paren.findall(row['text']) 
+        if result:
+            obj_response['indices'].append(index)
+            linhas.append(row['text'])
+    return obj_response
 
 def mapping_regex_white_space(dataframe,msg:str='WHITE SPACE')->dict:
     letter_paren = re.compile(r'(^^\s{0,}$)',re.IGNORECASE)
@@ -89,13 +102,29 @@ def count_bulltes(dataframe)->str:
     count_letter_paran= len(mapping_regex_letter_paran(dataframe)['indices'])
     count_numb_dot= len(mapping_regex_numb_dot(dataframe)['indices'])
     count_numb_paran= len(mapping_regex_numb_paran(dataframe)['indices'])
-    
-    filters_list = ['mapping_regex_letter_dot','mapping_regex_letter_paran','mapping_regex_numb_dot','mapping_regex_numb_paran']
-    most_rec = [count_letter_dot,count_letter_paran,count_numb_dot,count_numb_paran]
+    count_bullet = len(mapping_regex_bullet(dataframe)['indices'])
+
+    filters_list = ['mapping_regex_letter_dot','mapping_regex_letter_paran','mapping_regex_numb_dot','mapping_regex_numb_paran','count_bullet']
+    most_rec = [count_letter_dot,count_letter_paran,count_numb_dot,count_numb_paran,count_bullet]
+ 
     index_resp = most_rec.index(max(most_rec))
     response = filters_list[index_resp]
 
     return response,max(most_rec)
+
+def last_terms(dataframe,list_regex)->dict:
+    dataset_last_page = token_last_page(dataframe)
+    dataset_last_page = dataset_last_page.reset_index()
+    obj_find = {'index':0,'termo':'','sent':'','sentences':[]}
+    for index,row in dataset_last_page.iterrows():
+        obj_find['sentences'].append(row['text'])
+        search_regex = regex_validando_lista(list_regex,row['text'])
+        if (search_regex!='não encontrado'):
+            obj_find['index'] = index
+            obj_find['termo'] = search_regex
+            obj_find['sent'] = row['text']
+    return obj_find
+
 
 """POSSÍVEIS REGRAS:
 

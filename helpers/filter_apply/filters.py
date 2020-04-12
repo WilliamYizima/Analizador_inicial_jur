@@ -1,6 +1,15 @@
 import pandas as pd
 
-def regex_validando(regex:str,frase:str):
+def regex_validando(regex:str,frase:str)->str:
+    """[summary]
+    
+    Arguments:
+        regex {str} -- regex
+        frase {str} -- frase a ser lida 
+    
+    Returns:
+        str -- regex encontrado
+    """
     import re
     regex_tratado = regex.lower()
     frase_tratado = frase.lower()

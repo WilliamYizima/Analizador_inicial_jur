@@ -33,10 +33,9 @@ def slice_sentence(dataframe,indice:list)->list:
     dataframe = dataframe.reset_index()
     for i in range(len(indice['indices'])-1):
         lista = indice['indices']
-        print(len(indice['indices']))
-        print(i)
+
         begin = lista[i]
-        print(begin)
+
         texto = ''
         if(i==0):
             texto = dataframe.loc[:begin]['text'].values
@@ -47,10 +46,17 @@ def slice_sentence(dataframe,indice:list)->list:
             sentence.append(' '.join(texto01))
             texto02 = dataframe.loc[begin:]['text'].values
             sentence.append(' '.join(texto02))
-            print('ultimo')
+
         else:
             end = lista[i+1]
-            print(end)
             texto = dataframe.loc[begin:end-1]['text'].values
         sentence.append(' '.join(texto))
     return sentence
+
+def token_last_page(dataframe)->list:
+    """Pega o dataframe inteiro(não o pedidos)
+        Busca a última página e junta todas as palavras
+    """
+    ultima_p = dataframe.loc[dataframe['page'].idxmax()]['page']
+    dataset_last_page = dataframe.query(f'page == {ultima_p}')
+    return dataset_last_page
