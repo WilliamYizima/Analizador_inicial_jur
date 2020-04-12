@@ -8,7 +8,7 @@ regex_titulos_pedidos = ['Dos Pedidos','PEDIDOS','Pleiteia','PEDIDO','REQUERIMEN
 
 @extract_pdf.route('/extract_pdf/pdf_struct', methods=['POST'])
 def run():
-    try:
+    # try:
         body = request.get_json()
         name_excel = body['name_excel']
         name_pdf = body['name_pdf']
@@ -19,12 +19,12 @@ def run():
             message='successfully executed',
             content=retorno
         )
-    except:
-        return jsonify(
-            code=500,
-            message='something happend',
-            content=''
-        )
+    # except:
+    #     return jsonify(
+    #         code=500,
+    #         message='something happend',
+    #         content=''
+    #     )
 
 @extract_pdf.route('/extract_pdf/pdf_struct_mass', methods=['POST'])
 def run_mass():

@@ -1,4 +1,5 @@
 from helpers.help.helpers import treatament_file_name
+from helpers.filter_apply.token_senteces import filter_tokenizer
 
 
 def reponse(path_pdf:str,dataset_request):
@@ -7,6 +8,8 @@ def reponse(path_pdf:str,dataset_request):
         'text_requests':'',
         'sentences':[]
     }
+    obj_reponse['sentences'] = filter_tokenizer(dataset_request)
+
 
     analyze_list = []
     sentence = {'num':0,'text':'','layout_analyze':''}
@@ -21,5 +24,7 @@ def reponse(path_pdf:str,dataset_request):
         analyze['font_size'] = texto['size']
         analyze['font'] = texto['font']
         analyze_list.append(analyze)
+
+    
     return obj_reponse
 
