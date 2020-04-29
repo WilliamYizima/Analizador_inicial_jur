@@ -5,7 +5,7 @@ import os
 
 #TO DO -> colocar no dotenv
 regex_titulos_pedidos = ['Dos Pedidos','PEDIDOS','Pleiteia','PEDIDO','REQUERIMENTOS']
-regex_fim_petição = ['Pede deferimento']
+regex_fim_petição = ['Pede deferimento','Deferimento','Deferimento.']
 
 @extract_pdf.route('/extract_pdf/pdf_struct', methods=['POST'])
 def run():

@@ -38,3 +38,18 @@ def filter_process(dataset,regex_titulos_pedidos):
     response_filter06 = filter06(lista_negrito,vazio_posterior_set,dataset,regex_titulos_pedidos)
     list_responses = [response_filter01,response_filter02,response_filter03,response_filter04,response_filter05,response_filter06]
     return list_responses
+
+def filter_title(dataset):
+    negrito = dataset.query('font.str.contains("Bold") and size>9.97')
+    lista_negrito = [index_negrito for index_negrito in negrito['id']]
+
+    upper = dataset.query('text.str.isupper() and size>9.97')
+    lista_upper = [index_upper for index_upper in upper.id]
+    index_title = lista_negrito+lista_upper
+
+    list_title = []
+    for index in index_title:
+        title = dataset.iloc[index]['text'].strip()
+        if(len(title)>3 and len(title)<55):
+            list_title.append(title)
+    return list_title

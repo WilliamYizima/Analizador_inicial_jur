@@ -60,3 +60,4 @@ def token_last_page(dataframe)->list:
     ultima_p = dataframe.loc[dataframe['page'].idxmax()]['page']
     dataset_last_page = dataframe.query(f'page == {ultima_p}')
     return dataset_last_page
+

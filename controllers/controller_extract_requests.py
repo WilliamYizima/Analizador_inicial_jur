@@ -1,6 +1,6 @@
 from helpers.structure_pdf.read_pdf import structure_pdf
 from helpers.structure_pdf.structure_table import structure_table
-from helpers.filter_apply.filter_apply import filter_process,find_response
+from helpers.filter_apply.filter_apply import filter_process,find_response,filter_title
 from helpers.slice_pdf4request.slice_4request import dataset_request
 from helpers.response_app.reponse import reponse
 from helpers.help.helpers import unzip_files,read_files_folder
@@ -20,8 +20,11 @@ def create_structe_excel(path_pdf:str,name_excel:str,regex_titulos_pedidos:list,
     response_app = find_response(response_filter)
     dataset_pedidos = dataset_request(response_app,dataset,name_excel)
     response_app = reponse(path_pdf,dataset_pedidos,dataset,list_regex_end_page)
-    response_app['last_page']['status'] = bd_excel(response_app)
 
+
+    response_app['title'] = filter_title(dataset)
+
+    response_app['last_page']['status'] = bd_excel(response_app)
     return response_app
 
 def analyze_mass(file_zip_name:str,regex_titulos_pedidos:list,regex_fim_petição:list) ->list:
