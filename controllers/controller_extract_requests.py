@@ -21,7 +21,6 @@ def create_structe_excel(path_pdf:str,name_excel:str,regex_titulos_pedidos:list,
     dataset_pedidos = dataset_request(response_app,dataset,name_excel)
     response_app = reponse(path_pdf,dataset_pedidos,dataset,list_regex_end_page)
 
-
     response_app['title'] = filter_title(dataset)
 
     response_app['last_page']['status'] = bd_excel(response_app)
