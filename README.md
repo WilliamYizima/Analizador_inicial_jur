@@ -37,7 +37,7 @@ Passo a passo da lógica:
        uvicorn app:app
     ```
 
-- rode EM DEV FASTAPI
+- rode EM DEV FASTAPI (next)
 
     ```bash
        uvicorn app:app --reload
